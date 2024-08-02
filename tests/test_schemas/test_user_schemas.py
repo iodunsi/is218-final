@@ -129,3 +129,8 @@ def test_user_base_invalid_role(user_base_data):
     with pytest.raises(ValidationError):
         UserBase(**user_base_data)
 
+def test_user_base_username(user_base_data):
+    user_base_data["nickname"] = "testuser"
+    user = UserBase(**user_base_data)
+    assert user.nickname == "testuser"
+    assert user.dict()["nickname"] == "testuser"
