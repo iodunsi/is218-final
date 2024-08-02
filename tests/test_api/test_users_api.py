@@ -1,11 +1,11 @@
-from builtins import str
 import pytest
 from httpx import AsyncClient
 from app.main import app
 from app.models.user_model import User, UserRole
 from app.utils.nickname_gen import generate_nickname
 from app.utils.security import hash_password
-from app.services.jwt_service import decode_token  # Import your FastAPI app
+from app.services.jwt_service import decode_token
+from urllib.parse import urlencode
 
 # Example of a test function using the async_client fixture
 @pytest.mark.asyncio
@@ -51,7 +51,6 @@ async def test_update_user_email_access_allowed(async_client, admin_user, admin_
     assert response.status_code == 200
     assert response.json()["email"] == updated_data["email"]
 
-
 @pytest.mark.asyncio
 async def test_delete_user(async_client, admin_user, admin_token):
     headers = {"Authorization": f"Bearer {admin_token}"}
@@ -80,10 +79,6 @@ async def test_create_user_invalid_email(async_client):
     }
     response = await async_client.post("/register/", json=user_data)
     assert response.status_code == 422
-
-import pytest
-from app.services.jwt_service import decode_token
-from urllib.parse import urlencode
 
 @pytest.mark.asyncio
 async def test_login_success(async_client, verified_user):
@@ -143,6 +138,7 @@ async def test_login_locked_user(async_client, locked_user):
     response = await async_client.post("/login/", data=urlencode(form_data), headers={"Content-Type": "application/x-www-form-urlencoded"})
     assert response.status_code == 400
     assert "Account locked due to too many failed login attempts." in response.json().get("detail", "")
+
 @pytest.mark.asyncio
 async def test_delete_user_does_not_exist(async_client, admin_token):
     non_existent_user_id = "00000000-0000-0000-0000-000000000000"  # Valid UUID format
@@ -210,4 +206,3 @@ async def test_list_users_pagination(async_client, admin_token):
     assert 'items' in data
     assert len(data['items']) <= 2
     assert 'total' in data
-
