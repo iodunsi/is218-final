@@ -108,3 +108,13 @@ def test_user_base_url_invalid(url, user_base_data):
     user_base_data["profile_picture_url"] = url
     with pytest.raises(ValidationError):
         UserBase(**user_base_data)
+
+def test_user_base_invalid_email_format(user_base_data):
+    user_base_data["email"] = "invalid-email"
+    with pytest.raises(ValidationError):
+        UserBase(**user_base_data)
+
+def test_user_create_missing_fields(user_create_data):
+    user_create_data.pop("password")
+    with pytest.raises(ValidationError):
+        UserCreate(**user_create_data)
