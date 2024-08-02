@@ -123,3 +123,9 @@ def test_user_response_invalid_uuid(user_response_data):
     user_response_data["id"] = "invalid-uuid"
     with pytest.raises(ValidationError):
         UserResponse(**user_response_data)
+
+def test_user_base_invalid_role(user_base_data):
+    user_base_data["role"] = "INVALID_ROLE"
+    with pytest.raises(ValidationError):
+        UserBase(**user_base_data)
+
