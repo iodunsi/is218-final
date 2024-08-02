@@ -199,4 +199,15 @@ async def test_create_user_missing_fields(async_client):
     response = await async_client.post("/register/", json=user_data)
     assert response.status_code == 422
 
+@pytest.mark.asyncio
+async def test_list_users_pagination(async_client, admin_token):
+    response = await async_client.get(
+        "/users/?skip=0&limit=2",
+        headers={"Authorization": f"Bearer {admin_token}"}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert 'items' in data
+    assert len(data['items']) <= 2
+    assert 'total' in data
 
