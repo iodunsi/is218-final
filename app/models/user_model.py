@@ -61,6 +61,7 @@ class User(Base):
     bio: Mapped[str] = Column(String(500), nullable=True)
     profile_picture_url: Mapped[str] = Column(String(255), nullable=True)
     linkedin_profile_url: Mapped[str] = Column(String(255), nullable=True)
+    is_professional = Column(Boolean, default=False) 
     github_profile_url: Mapped[str] = Column(String(255), nullable=True)
     role: Mapped[UserRole] = Column(SQLAlchemyEnum(UserRole, name='UserRole', create_constraint=True), nullable=False)
     is_professional: Mapped[bool] = Column(Boolean, default=False)
