@@ -118,3 +118,8 @@ def test_user_create_missing_fields(user_create_data):
     user_create_data.pop("password")
     with pytest.raises(ValidationError):
         UserCreate(**user_create_data)
+
+def test_user_response_invalid_uuid(user_response_data):
+    user_response_data["id"] = "invalid-uuid"
+    with pytest.raises(ValidationError):
+        UserResponse(**user_response_data)
