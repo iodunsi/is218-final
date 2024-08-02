@@ -26,6 +26,7 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, scoped_session
 from faker import Faker
+from datetime import datetime
 
 # Application-specific imports
 from app.main import app

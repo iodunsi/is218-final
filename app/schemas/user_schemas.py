@@ -8,7 +8,6 @@ import re
 from app.models.user_model import UserRole
 from app.utils.nickname_gen import generate_nickname
 
-
 def validate_url(url: Optional[str]) -> Optional[str]:
     if url is None:
         return url
@@ -24,9 +23,10 @@ class UserBase(BaseModel):
     last_name: Optional[str] = Field(None, example="Doe")
     bio: Optional[str] = Field(None, example="Experienced software developer specializing in web applications.")
     profile_picture_url: Optional[str] = Field(None, example="https://example.com/profiles/john.jpg")
-    linkedin_profile_url: Optional[str] =Field(None, example="https://linkedin.com/in/johndoe")
+    linkedin_profile_url: Optional[str] = Field(None, example="https://linkedin.com/in/johndoe")
     github_profile_url: Optional[str] = Field(None, example="https://github.com/johndoe")
     role: UserRole
+    is_professional: Optional[bool] = Field(default=False, example=True)
 
     _validate_urls = validator('profile_picture_url', 'linkedin_profile_url', 'github_profile_url', pre=True, allow_reuse=True)(validate_url)
  
@@ -44,9 +44,10 @@ class UserUpdate(UserBase):
     last_name: Optional[str] = Field(None, example="Doe")
     bio: Optional[str] = Field(None, example="Experienced software developer specializing in web applications.")
     profile_picture_url: Optional[str] = Field(None, example="https://example.com/profiles/john.jpg")
-    linkedin_profile_url: Optional[str] =Field(None, example="https://linkedin.com/in/johndoe")
+    linkedin_profile_url: Optional[str] = Field(None, example="https://linkedin.com/in/johndoe")
     github_profile_url: Optional[str] = Field(None, example="https://github.com/johndoe")
-    role: Optional[str] = Field(None, example="AUTHENTICATED")
+    role: Optional[UserRole] = Field(None, example="AUTHENTICATED")
+    is_professional: Optional[bool] = Field(None, example=True)
 
     @root_validator(pre=True)
     def check_at_least_one_value(cls, values):
@@ -76,7 +77,8 @@ class UserListResponse(BaseModel):
         "last_name": "Doe", "bio": "Experienced developer", "role": "AUTHENTICATED",
         "profile_picture_url": "https://example.com/profiles/john.jpg", 
         "linkedin_profile_url": "https://linkedin.com/in/johndoe", 
-        "github_profile_url": "https://github.com/johndoe"
+        "github_profile_url": "https://github.com/johndoe",
+        "is_professional": False
     }])
     total: int = Field(..., example=100)
     page: int = Field(..., example=1)
