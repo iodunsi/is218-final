@@ -199,4 +199,13 @@ async def test_create_user_missing_fields(async_client):
     response = await async_client.post("/register/", json=user_data)
     assert response.status_code == 422
 
+@pytest.mark.asyncio
+async def test_update_non_existent_user(async_client, admin_token):
+    updated_data = {"email": "nonexistentuser@example.com"}
+    non_existent_user_id = "00000000-0000-0000-0000-000000000001"
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    response = await async_client.put(f"/users/{non_existent_user_id}", json=updated_data, headers=headers)
+    assert response.status_code == 404
+
+
 
