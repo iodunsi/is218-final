@@ -20,4 +20,6 @@ The goal of this project is to simulate a production-style environment where stu
 ## Project Context
 This repository was forked from the course base project and extended with my own QA issues, additional tests, and feature implementation as required for the final assignment.
 
+[Github Issues Documentation](https://github.com/iodunsi/is218-final/issues?q=is%3Aissue%20state%3Aclosed)
+
 For the full academic overview and methodology details, see `about.md`.
